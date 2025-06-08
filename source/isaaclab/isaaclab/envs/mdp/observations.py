@@ -235,7 +235,13 @@ def joint_effort(env: ManagerBasedEnv, asset_cfg: SceneEntityCfg = SceneEntityCf
 Sensors.
 """
 
-
+# add
+def contact_forces(env: ManagerBasedEnv, threshold: float, sensor_cfg: SceneEntityCfg) -> torch.Tensor:
+    sensor: ContactSensor = env.scene.sensors[sensor_cfg.name]
+    net_contact_forces = sensor.data.net_forces_w
+    is_contact = torch.norm(net_contact_forces[:, :, sensor_cfg.body_ids], dim=-1)
+    return is_contact
+    
 def height_scan(env: ManagerBasedEnv, sensor_cfg: SceneEntityCfg, offset: float = 0.5) -> torch.Tensor:
     """Height scan from the given sensor w.r.t. the sensor's frame.
 
