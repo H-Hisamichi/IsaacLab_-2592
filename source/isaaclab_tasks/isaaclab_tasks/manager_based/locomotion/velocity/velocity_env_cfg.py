@@ -142,6 +142,11 @@ class ObservationsCfg:
             noise=Unoise(n_min=-0.1, n_max=0.1),
             clip=(-1.0, 1.0),
         )
+        contact_forces = ObsTerm(
+            func=mdp.contact_forces,
+            params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*FOOT"), "threshold": 1.0},
+            noise=Unoise(n_min=-0.1, n_max=0.1),
+        )
 
         def __post_init__(self):
             self.enable_corruption = True
